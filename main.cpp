@@ -91,27 +91,27 @@ void checkConnectivity(double arr[], int n, double threshold1and3)
     fstream fout;
     fout.open("reportRandomGraphAttributes.csv", ios::out | ios::app);
 	vector<vector<int>> edge;
-	int work, notWork;
+	int success, fails;
 	for (int i = 0; i < 10; i++) {
-    	work = 0, notWork = 0;
+    	success = 0, fails = 0;
 		for (int j = 0; j < 500; j++) {
 			edge = graph_random_build(n, arr[i]);
 			if (arr[i] < threshold1and3) {
 				if (connectivity(edge)) {
-					notWork++;
+					fails++;
 				} else {
-					work++;
+					success++;
 				}
 			}
 			else {
 				if (!connectivity(edge)) {
-					notWork++;
+					fails++;
 				} else {
-					work++;
+					success++;
 				}
 			}
 		}
-        fout << "Work=" << work << ", notWork=" << notWork << "\t";
+        fout << "Work=" << success << ", fails=" << fails << "\t";
 	}
 	fout << "\n";
     fout.close();
@@ -122,27 +122,27 @@ void checkIsolated_Is(double arr[], int n, double threshold1and3)
 	fstream fout;
     fout.open("reportRandomGraphAttributes.csv", ios::out | ios::app);
 	vector<vector<int>> edge;
-	int work, notWork;
+	int work, fails;
 	for (int i = 0; i < 10; i++) {
-		work = 0, notWork = 0;
+		work = 0, fails = 0;
 		for (int j = 0; j < 500; j++) {
 			edge = graph_random_build(n, arr[i]);
 			if (arr[i] < threshold1and3) {
 				if (!Isolated_Is(edge)) {
-					notWork++;
+					fails++;
 				} else {
 					work++;
 				}
 			}
 			else {
 				if (Isolated_Is(edge)) {
-					notWork++;
+					fails++;
 				} else {
 					work++;
 				}
 			}
 		}
-        fout << "Work=" << work << ", notWork=" << notWork << "\t";
+        fout << "Work=" << work << ", fails=" << fails << "\t";
 	}
 	fout << "\n";
     fout.close();
@@ -153,27 +153,27 @@ void checkDiameter(double arr[], int n, double threshold2)
 	fstream fout;
     fout.open("reportRandomGraphAttributes.csv", ios::out | ios::app);
 	vector<vector<int>> edge;
-	int work, notWork;
+	int work, fails;
 	for (int i = 0; i < 10; i++) {
-		work = 0, notWork = 0;
+		work = 0, fails = 0;
 		for (int j = 0; j < 500; j++) {
 			edge = graph_random_build(n, arr[i]);
 			if (arr[i] > threshold2) {
 				if (diameter(edge) != 2) {
-					notWork++;
+					fails++;
 				} else {
 					work++;
 				}
 			}
 			else {
 				if (diameter(edge) <= 2) {
-					notWork++;
+					fails++;
 				} else {
 					work++;
 				}
 			}
 		}
-        fout << "Work=" << work << ", notWork=" << notWork << "\t";
+        fout << "Work=" << work << ", fails=" << fails << "\t";
 	}
 	fout.close();
 }
