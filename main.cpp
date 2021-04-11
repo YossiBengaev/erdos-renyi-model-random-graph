@@ -98,19 +98,18 @@ void checkConnectivity(double arr[], int n, double threshold1and3)
 			edge = graph_random_build(n, arr[i]);
 			if (arr[i] < threshold1and3) {
 				if (connectivity(edge)) {
-					cout << "Problem 1" << endl;
 					notWork++;
-					break;
+				} else {
+					work++;
 				}
 			}
 			else {
 				if (!connectivity(edge)) {
-					cout << "Problem 3" << endl;
 					notWork++;
-					break;
+				} else {
+					work++;
 				}
 			}
-			work++;
 		}
         fout << "Work=" << work << ", notWork=" << notWork << "\t";
 	}
@@ -130,19 +129,18 @@ void checkIsolated_Is(double arr[], int n, double threshold1and3)
 			edge = graph_random_build(n, arr[i]);
 			if (arr[i] < threshold1and3) {
 				if (!Isolated_Is(edge)) {
-					cout << "Problem 2" << endl;
 					notWork++;
-					break;
+				} else {
+					work++;
 				}
 			}
 			else {
 				if (Isolated_Is(edge)) {
-					cout << "Problem 4" << endl;
 					notWork++;
-					break;
+				} else {
+					work++;
 				}
 			}
-			work++;
 		}
         fout << "Work=" << work << ", notWork=" << notWork << "\t";
 	}
@@ -162,19 +160,18 @@ void checkDiameter(double arr[], int n, double threshold2)
 			edge = graph_random_build(n, arr[i]);
 			if (arr[i] > threshold2) {
 				if (diameter(edge) != 2) {
-					cout << "Problem 5" << endl;
 					notWork++;
-					break;
+				} else {
+					work++;
 				}
 			}
 			else {
 				if (diameter(edge) <= 2) {
-					cout << "Problem 6" << endl;
 					notWork++;
-					break;
+				} else {
+					work++;
 				}
 			}
-			work++;
 		}
         fout << "Work=" << work << ", notWork=" << notWork << "\t";
 	}
@@ -193,7 +190,7 @@ int main()
 	/* Random number settings */
 	srand(time(NULL));
 
-    /* Build table in csv file */
+    /* Build connectivity and Isolated_Is table in csv file */
     fstream fout;
     fout.open("reportRandomGraphAttributes.csv", ios::out | ios::app);
     for (int i = 0; i < 10; i++) {
@@ -202,9 +199,11 @@ int main()
     fout << "\n\n\n";
     fout.close();
 
-	/* Functions for random graph attributes testing */
+	/* Functions for random graph attributes testing on connectivity and isolated */
 	checkConnectivity(arr, n, threshold1and3);
 	checkIsolated_Is(arr, n, threshold1and3);
+
+    /* Build diameter table in csv file */
 	fout;
     fout.open("reportRandomGraphAttributes.csv", ios::out | ios::app);
     for (int i = 0; i < 10; i++) {
@@ -212,8 +211,8 @@ int main()
     }
     fout << "\n";
     fout.close();
-	checkDiameter(arr2, n, threshold2);
 
-	return 0;
+	/* Functions for random graph attributes testing on diameter*/
+	checkDiameter(arr2, n, threshold2);
     return 0;
 }
