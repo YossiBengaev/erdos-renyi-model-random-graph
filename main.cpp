@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <algorithm>
 using namespace std;
 
 int probabilityOfAddingEdgeToGraph(double p)
@@ -52,6 +53,35 @@ vector<int> BFS(int v, vector<vector<int>> edge)
 		}
 	}
 	return dist;
+}
+
+int connectivity(vector<vector<int>> edge)
+{
+	int n = edge.size();
+	vector<int> dist = BFS(0, edge);
+	for (int i = 1; i < n; i++) if (dist[i] < 1) return 0;
+	return 1;
+}
+
+int Isolated_Is(vector<vector<int>> edge)
+{
+	int n = edge.size();
+	for (int i = 0; i < n; i++) if (!edge[i].size()) return 1;
+	return 0;
+}
+
+int diameter(vector<vector<int>> edge)
+{
+	int n = edge.size();
+	vector<int> dist;
+	int diam = 0, temp;
+	if (!connectivity(edge)) return -1;
+	for (int i = 0; i < n; i++) {
+		dist = BFS(0, edge);
+		temp = int(*max_element(dist.begin(), dist.end()));
+		diam = max(temp, diam);
+	}
+	return diam;
 }
 
 int main()
