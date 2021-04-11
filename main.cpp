@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <queue>
 using namespace std;
 
 int probabilityOfAddingEdgeToGraph(double p)
@@ -31,8 +32,30 @@ vector<vector<int>> graph_random_build(int n, double p)
 	return edge;
 }
 
+vector<int> BFS(int v, vector<vector<int>> edge)
+{
+	int u, i, n = edge.size();
+	vector<int> dist(n, 0);
+	vector<bool> visited(n, false);
+	queue<int> q;
+	visited[v] = 1;
+	q.push(v);
+	while (!q.empty()) {
+		u = q.front();
+		q.pop();
+		for (i = 0; i < edge[u].size(); i++) {
+			if (visited[edge[u][i]] == 0) {
+				visited[edge[u][i]] = 1;
+				dist[edge[u][i]] += dist[u] + 1;
+				q.push(edge[u][i]);
+			}
+		}
+	}
+	return dist;
+}
+
 int main()
 {
-    vector<vector<int>> edge = graph_random_build(5, 0.3);
+    cout << "Hello" << endl;
     return 0;
 }
