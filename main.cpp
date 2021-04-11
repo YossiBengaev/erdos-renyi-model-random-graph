@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <queue>
 #include <cmath>
@@ -87,10 +88,12 @@ int diameter(vector<vector<int>> edge)
 
 void checkConnectivity(double arr[], int n, double threshold1and3)
 {
+    fstream fout;
+    fout.open("reportRandomGraphAttributes.csv", ios::out | ios::app);
 	vector<vector<int>> edge;
-	cout << "Welcome to connectivity check" << endl;
-	int work = 0, notWork = 0;
+	int work, notWork;
 	for (int i = 0; i < 10; i++) {
+    	work = 0, notWork = 0;
 		for (int j = 0; j < 500; j++) {
 			edge = graph_random_build(n, arr[i]);
 			if (arr[i] < threshold1and3) {
@@ -109,16 +112,20 @@ void checkConnectivity(double arr[], int n, double threshold1and3)
 			}
 			work++;
 		}
+        fout << "Work=" << work << ", notWork=" << notWork << "\t";
 	}
-	cout << "Work=" << work << " Not work=" << notWork << endl;
+	fout << "\n";
+    fout.close();
 }
 
 void checkIsolated_Is(double arr[], int n, double threshold1and3)
 {
+	fstream fout;
+    fout.open("reportRandomGraphAttributes.csv", ios::out | ios::app);
 	vector<vector<int>> edge;
-	cout << "Welcome to Isolated_Is check" << endl;
-	int work = 0, notWork = 0;
+	int work, notWork;
 	for (int i = 0; i < 10; i++) {
+		work = 0, notWork = 0;
 		for (int j = 0; j < 500; j++) {
 			edge = graph_random_build(n, arr[i]);
 			if (arr[i] < threshold1and3) {
@@ -137,16 +144,20 @@ void checkIsolated_Is(double arr[], int n, double threshold1and3)
 			}
 			work++;
 		}
+        fout << "Work=" << work << ", notWork=" << notWork << "\t";
 	}
-	cout << "Work=" << work << " Not work=" << notWork << endl;
+	fout << "\n";
+    fout.close();
 }
 
 void checkDiameter(double arr[], int n, double threshold2)
 {
+	fstream fout;
+    fout.open("reportRandomGraphAttributes.csv", ios::out | ios::app);
 	vector<vector<int>> edge;
-	cout << "Welcome to Diameter check" << endl;
-	int work = 0, notWork = 0;
+	int work, notWork;
 	for (int i = 0; i < 10; i++) {
+		work = 0, notWork = 0;
 		for (int j = 0; j < 500; j++) {
 			edge = graph_random_build(n, arr[i]);
 			if (arr[i] > threshold2) {
@@ -165,8 +176,9 @@ void checkDiameter(double arr[], int n, double threshold2)
 			}
 			work++;
 		}
+        fout << "Work=" << work << ", notWork=" << notWork << "\t";
 	}
-	cout << "Work=" << work << " Not work=" << notWork << endl;
+	fout.close();
 }
 
 int main()
@@ -181,9 +193,25 @@ int main()
 	/* Random number settings */
 	srand(time(NULL));
 
-	/* Functions for random graph attributes testing */ 
+    /* Build table in csv file */
+    fstream fout;
+    fout.open("reportRandomGraphAttributes.csv", ios::out | ios::app);
+    for (int i = 0; i < 10; i++) {
+        fout << arr[i] << "\t\t\t\t";
+    }
+    fout << "\n\n\n";
+    fout.close();
+
+	/* Functions for random graph attributes testing */
 	checkConnectivity(arr, n, threshold1and3);
 	checkIsolated_Is(arr, n, threshold1and3);
+	fout;
+    fout.open("reportRandomGraphAttributes.csv", ios::out | ios::app);
+    for (int i = 0; i < 10; i++) {
+        fout << arr2[i] << "\t\t\t\t";
+    }
+    fout << "\n";
+    fout.close();
 	checkDiameter(arr2, n, threshold2);
 
 	return 0;
