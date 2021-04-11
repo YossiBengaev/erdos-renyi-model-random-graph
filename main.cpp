@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <cmath>
 #include <algorithm>
 using namespace std;
 
@@ -84,8 +85,107 @@ int diameter(vector<vector<int>> edge)
 	return diam;
 }
 
+void checkConnectivity(double arr[], int n, double threshold1and3)
+{
+	vector<vector<int>> edge;
+	cout << "Welcome to connectivity check" << endl;
+	int work = 0, notWork = 0;
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 500; j++) {
+			edge = graph_random_build(n, arr[i]);
+			if (arr[i] < threshold1and3) {
+				if (connectivity(edge)) {
+					cout << "Problem 1" << endl;
+					notWork++;
+					break;
+				}
+			}
+			else {
+				if (!connectivity(edge)) {
+					cout << "Problem 3" << endl;
+					notWork++;
+					break;
+				}
+			}
+			work++;
+		}
+	}
+	cout << "Work=" << work << " Not work=" << notWork << endl;
+}
+
+void checkIsolated_Is(double arr[], int n, double threshold1and3)
+{
+	vector<vector<int>> edge;
+	cout << "Welcome to Isolated_Is check" << endl;
+	int work = 0, notWork = 0;
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 500; j++) {
+			edge = graph_random_build(n, arr[i]);
+			if (arr[i] < threshold1and3) {
+				if (!Isolated_Is(edge)) {
+					cout << "Problem 2" << endl;
+					notWork++;
+					break;
+				}
+			}
+			else {
+				if (Isolated_Is(edge)) {
+					cout << "Problem 4" << endl;
+					notWork++;
+					break;
+				}
+			}
+			work++;
+		}
+	}
+	cout << "Work=" << work << " Not work=" << notWork << endl;
+}
+
+void checkDiameter(double arr[], int n, double threshold2)
+{
+	vector<vector<int>> edge;
+	cout << "Welcome to Diameter check" << endl;
+	int work = 0, notWork = 0;
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 500; j++) {
+			edge = graph_random_build(n, arr[i]);
+			if (arr[i] > threshold2) {
+				if (diameter(edge) != 2) {
+					cout << "Problem 5" << endl;
+					notWork++;
+					break;
+				}
+			}
+			else {
+				if (diameter(edge) <= 2) {
+					cout << "Problem 6" << endl;
+					notWork++;
+					break;
+				}
+			}
+			work++;
+		}
+	}
+	cout << "Work=" << work << " Not work=" << notWork << endl;
+}
+
 int main()
 {
-    cout << "Hello" << endl;
+    /* Variable Settings */
+	int n = 1000;
+	double arr[10] = { 0.06, 0.062, 0.064, 0.066, 0.068, 0.072, 0.074, 0.076, 0.078, 0.08 };
+	double arr2[10] = { 0.09, 0.095, 0.1, 0.105, 0.11, 0.115, 0.12, 0.125, 0.13, 0.35 };
+	double threshold1and3 = log(n) / n;
+	double threshold2 = sqrt(2 * log(n) / n);
+
+	/* Random number settings */
+	srand(time(NULL));
+
+	/* Functions for random graph attributes testing */ 
+	checkConnectivity(arr, n, threshold1and3);
+	checkIsolated_Is(arr, n, threshold1and3);
+	checkDiameter(arr2, n, threshold2);
+
+	return 0;
     return 0;
 }
