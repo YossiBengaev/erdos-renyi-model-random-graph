@@ -6,21 +6,21 @@
 #include <algorithm>
 using namespace std;
 
-int probabilityOfAddingEdgeToGraph(double p)
+int probabilityOfAddingEdgeToGraph(double p) // Function for get a random probability for adding or not to the graph's edge
 {
 	double r = ((double)rand() / (RAND_MAX)); // Get random number
 	return p > r;
 }
 
-void addEdge(int a, int b, vector<vector<int>> &edge)
+void addEdge(int a, int b, vector<vector<int>> &edge) // Function for adding edge to the graph
 {
 	edge[a].push_back(b);
 	edge[b].push_back(a);
 }
 
-vector<vector<int>> graph_random_build(int n, double p)
+vector<vector<int>> graph_random_build(int n, double p) // Function for building a random graph
 {
-	int i, j, maxEdges = p * (n * (n - 1) / 2), countEdges = 0;
+	int i, j, maxEdges = p * (n * (n - 1) / 2), countEdges = 0; 
 	vector<vector<int>> edge(n, vector<int>());
 	for (i = 0; i < n; i++) {
 		for (j = i + 1; j < n; j++) {
@@ -57,29 +57,33 @@ vector<int> BFS(int v, vector<vector<int>> edge)
 	return dist;
 }
 
-int connectivity(vector<vector<int>> edge)
+ /* Function that check if graph is connectivity by running one time BFS and check the vector distance */
+int connectivity(vector<vector<int>> edge) 
 {
 	int n = edge.size();
 	vector<int> dist = BFS(0, edge);
-	for (int i = 1; i < n; i++) if (dist[i] < 1) return 0;
+	for (int i = 1; i < n; i++) if (dist[i] < 1) return 0; 
+	/* We will get dist[i]<1 this means that there is no path from the start vertex to the same vertex -> not connectivity*/
 	return 1;
 }
 
+ /* Function that check if every vertex in the garph is isolated */
 int Isolated_Is(vector<vector<int>> edge)
 {
 	int n = edge.size();
-	for (int i = 0; i < n; i++) if (!edge[i].size()) return 1;
+	for (int i = 0; i < n; i++) if (!edge[i].size()) return 1; // If the vector's size is 0 this means that the vertex is isolated
 	return 0;
 }
 
+/* */
 int diameter(vector<vector<int>> edge)
 {
 	int n = edge.size();
 	vector<int> dist;
 	int diam = 0, temp;
-	if (!connectivity(edge)) return -1;
-	for (int i = 0; i < n; i++) {
-		dist = BFS(0, edge);
+	if (!connectivity(edge)) return -1; // If the graph is not connectivity return -1
+	for (int i = 0; i < n; i++) { // for each vertex run BFS and save the max distance
+		dist = BFS(0, edge); 
 		temp = int(*max_element(dist.begin(), dist.end()));
 		diam = max(temp, diam);
 	}
